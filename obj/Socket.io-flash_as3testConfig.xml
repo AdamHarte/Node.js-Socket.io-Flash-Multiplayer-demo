@@ -25,6 +25,7 @@
       <path-element>C:\Flash\libs\web-socket-js\flash-src\third-party</path-element>
       <path-element>C:\Flash\libs\AS3CoreLib\as3corelib\src</path-element>
       <path-element>C:\Flash\libs\web-socket-js\flash-src\src</path-element>
+      <path-element>C:\Flash\libs\MinimalComps</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
   </compiler>

@@ -20,6 +20,7 @@
     <class path="..\..\..\..\..\Flash\libs\web-socket-js\flash-src\third-party" />
     <class path="..\..\..\..\..\Flash\libs\AS3CoreLib\as3corelib\src" />
     <class path="..\..\..\..\..\Flash\libs\web-socket-js\flash-src\src" />
+    <class path="..\..\..\..\..\Flash\libs\MinimalComps" />
   </classpaths>
   <!-- Build options -->
   <build>

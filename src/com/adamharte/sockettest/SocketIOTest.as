@@ -1,5 +1,6 @@
 package com.adamharte.sockettest 
 {
+	import com.bit101.components.TextArea;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import io.socket.flash.ISocketIOTransport;
@@ -18,6 +19,7 @@ package com.adamharte.sockettest
 	{
 		private var socketIOTransportFactory:ISocketIOTransportFactory = new SocketIOTransportFactory();
 		private var ioSocket:ISocketIOTransport;
+		private var logArea:TextArea;
 		
 		
 		public function SocketIOTest() 
@@ -30,6 +32,10 @@ package com.adamharte.sockettest
 		{
 			removeEventListener(Event.ADDED_TO_STAGE, init);
 			
+			logArea = new TextArea();
+			logArea.setSize(stage.stageWidth, stage.stageHeight);
+			addChild(logArea);
+			
 			connectToServer();
 		}
 		
@@ -37,7 +43,7 @@ package com.adamharte.sockettest
 		
 		private function connectToServer():void 
 		{
-			trace('CONNECTING TO SERVER')
+			log('CONNECTING TO SERVER')
 			//ioSocket = socketIOTransportFactory.createSocketIOTransport(XhrPollingTransport.TRANSPORT_TYPE, "localhost:7878/socket.io", this);
 			ioSocket = socketIOTransportFactory.createSocketIOTransport(WebsocketTransport.TRANSPORT_TYPE, "localhost:7878/socket.io", this);
 			ioSocket.addEventListener(SocketIOEvent.CONNECT, ioSocket_connectHandler);
@@ -48,13 +54,19 @@ package com.adamharte.sockettest
 			ioSocket.connect();
 		}
 		
+		private function log(...args):void 
+		{
+			trace(args.join(' '))
+			logArea.text = logArea.text +'\n' + args.join(' ');
+		}
+		
 		
 		
 		private function ioSocket_connectHandler(e:SocketIOEvent):void 
 		{
 			ioSocket.removeEventListener(SocketIOEvent.CONNECT, ioSocket_connectHandler);
 			
-			trace('CONNECTED:', e.target, ', ', e.message);
+			log('CONNECTED:', e.target, ', ', e.message);
 			//ioSocket.send({type: "message", data: "Heeeeelllloooooo!!!"});
 			//ioSocket.send({type: "msg", data: "Wooowwww"});
 			ioSocket.send({type: 'register', data: "Wooowwww"});
@@ -62,23 +74,23 @@ package com.adamharte.sockettest
 		
 		private function ioSocket_disconnectHandler(e:SocketIOEvent):void 
 		{
-			trace("DISCONNECTED:", e.target);
+			log("DISCONNECTED:", e.target);
 		}
 		
 		private function ioSocket_messageHandler(e:SocketIOEvent):void 
 		{
-			trace('==========');
-			trace('MESSAGE: ', e.message.type);
+			log('==========');
+			log('MESSAGE: ', e.message.type);
 		}
 		
 		private function ioSocket_connectionFaultHandler(e:SocketIOErrorEvent):void 
 		{
-			trace('FAULT:', e.type, ":", e.text);
+			log('FAULT:', e.type, ":", e.text);
 		}
 		
 		private function ioSocket_securityFaultHandler(e:SocketIOErrorEvent):void 
 		{
-			trace('SECURITY FAULT:', e.type, ":", e.text);
+			log('SECURITY FAULT:', e.type, ":", e.text);
 		}
 		
 	}
